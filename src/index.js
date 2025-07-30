@@ -15,25 +15,34 @@
 
 
 // import articlesTpl from './templates/articles.hbs';
-import './css/common.css';
-// import NewsApiService from './js/news-service';
+// import './css/common.css';
+import NewsApiService from './js/news-service.js';
 // import LoadMoreBtn from './js/components/load-more-btn';
-
-const options = {
-  headers: {
-    Authorization: '4330ebfabc654a6992c2aa792f3173a3'
-  },
-};
-
-const url = 'https://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1';
-fetch(url, options)
-  .then(r => r.json())
-  .then(console.log());
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
   articlesContainer: document.querySelector('.js-articles-container'),
+  loadMoreBtn: document.querySelector('[data-action="load-more"]')
 };
+
+const newsApiService = new NewsApiService();
+
+refs.searchForm.addEventListener('submit', onSearch);
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
+
+
+function onSearch(e) {
+    e.preventDefault();
+
+newsApiService.query = e.currentTarget.elements.query.value;
+newsApiService.resetPage();
+newsApiService.fetchArticles().then(articles => console.log(articles))
+}
+
+function onLoadMore() {
+
+  newsApiService.fetchArticles();
+}
 // const loadMoreBtn = new LoadMoreBtn({
 //   selector: '[data-action="load-more"]',
 //   hidden: true,
