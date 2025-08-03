@@ -2,7 +2,6 @@
   "name": "js-22",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html",
